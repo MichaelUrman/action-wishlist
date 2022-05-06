@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       person:
-        type: choice
+        # type: choice
         description: selected human
         options:
           leo: {name: "Leonardo", "job": "painter", "country": "us"}
@@ -33,6 +33,6 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a multi-line script
         run: |
-          echo "Hello ${{ fromJSON(github.event.inputs.person).name }}! How is ${{ fromJSON(github.event.inputs.person).country }}?"
-          echo "Hello ${{ fromJSON(github.event.inputs.person)[0] }}, ${{ fromJSON(github.event.inputs.person)[1].name }}! How is ${{ fromJSON(github.event.inputs.person)[1].country }}?"
+          #echo "Hello ${{ fromJSON(github.event.inputs.person).name }}! How is ${{ fromJSON(github.event.inputs.person).country }}?"
+          #echo "Hello ${{ fromJSON(github.event.inputs.person)[0] }}, ${{ fromJSON(github.event.inputs.person)[1].name }}! How is ${{ fromJSON(github.event.inputs.person)[1].country }}?"
           echo "Hello ${{ fromJSON(github.event.inputs.magic).name }}! How is ${{ fromJSON(github.event.inputs.magic).country }}?"
