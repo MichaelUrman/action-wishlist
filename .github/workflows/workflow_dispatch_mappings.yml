@@ -15,10 +15,23 @@ on:
           mia: {name: "Mia", "job": "engineer", "country": "ca"}
       magic:
         type: choice
-        description: selected human
+        description: magic human
         options:
           - '{name: "Leonardo", "job": "painter", "country": "us"}'
           - '{name: "Mia", "job": "engineer", "country": "ca"}'
+      bylookup:
+        type: choice
+        description:  lookup human
+        options:
+          - leo
+          - mia
+          
+env:
+  lookup: >-
+    {
+      "leo": { "job": "painter", "country": "us"},
+      "mia": { "job": "engineer", "country", "ca"}
+    }
           
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -36,3 +49,4 @@ jobs:
           #echo "Hello ${{ fromJSON(github.event.inputs.person).name }}! How is ${{ fromJSON(github.event.inputs.person).country }}?"
           #echo "Hello ${{ fromJSON(github.event.inputs.person)[0] }}, ${{ fromJSON(github.event.inputs.person)[1].name }}! How is ${{ fromJSON(github.event.inputs.person)[1].country }}?"
           echo "Hello ${{ fromJSON(github.event.inputs.magic).name }}! How is ${{ fromJSON(github.event.inputs.magic).country }}?"
+          echo "Lookup ${{ github.event.inputs.bylookup }}: ${{ fromJSON(env.lookup)[github.event.inputs.bylookup].name }}! How is ${{ fromJSON(env.lookup)[github.event.inputs.bylookup].country }}?"
