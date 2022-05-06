@@ -47,8 +47,8 @@ jobs:
         run: echo $PERSONS
         
       - name: Run a multi-line script
-        run: |
           #echo "Hello ${{ fromJSON(github.event.inputs.person).name }}! How is ${{ fromJSON(github.event.inputs.person).country }}?"
           #echo "Hello ${{ fromJSON(github.event.inputs.person)[0] }}, ${{ fromJSON(github.event.inputs.person)[1].name }}! How is ${{ fromJSON(github.event.inputs.person)[1].country }}?"
+        run: |
           echo "Hello ${{ fromJSON(github.event.inputs.magic).name }}! How is ${{ fromJSON(github.event.inputs.magic).country }}?"
           echo "Lookup ${{ github.event.inputs.lookup }}: ${{ fromJSON(env.PERSONS)[github.event.inputs.lookup].name }}! How is ${{ fromJSON(env.PERSONS)[github.event.inputs.lookup].country }}?"
