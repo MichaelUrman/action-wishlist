@@ -7,19 +7,19 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
-      person:
-        # type: choice
-        description: selected human
-        options:
-          leo: {name: "Leonardo", "job": "painter", "country": "us"}
-          mia: {name: "Mia", "job": "engineer", "country": "ca"}
+      #person:
+      #  type: choice
+      #  description: selected human
+      #  options: # want this, but dictionaries don't work
+      #    leo: {name: "Leonardo", "job": "painter", "country": "us"}
+      #    mia: {name: "Mia", "job": "engineer", "country": "ca"}
       magic:
         type: choice
         description: magic human
-        options:
+        options: # this hack works, but requires nested json when invoking from CLI
           - '{name: "Leonardo", "job": "painter", "country": "us"}'
           - '{name: "Mia", "job": "engineer", "country": "ca"}'
-      bylookup:
+      bylookup: # this hack creates an env we don't really want...
         type: choice
         description:  lookup human
         options:
@@ -29,8 +29,8 @@ on:
 env:
   lookup: >-
     {
-      "leo": { "job": "painter", "country": "us"},
-      "mia": { "job": "engineer", "country", "ca"}
+      "leo": { "name": "Leonardo", "job": "painter", "country": "us"},
+      "mia": { "name": "Mia", "job": "engineer", "country": "ca"}
     }
           
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
