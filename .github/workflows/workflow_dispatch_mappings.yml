@@ -19,7 +19,7 @@ on:
         options: # this hack works, but requires nested json when invoking from CLI
           - '{name: "Leonardo", "job": "painter", "country": "us"}'
           - '{name: "Mia", "job": "engineer", "country": "ca"}'
-      bylookup: # this hack creates an env we don't really want...
+      lookup: # this hack creates an env we don't really want...
         type: choice
         description:  lookup human
         options:
@@ -27,7 +27,7 @@ on:
           - mia
           
 env:
-  lookup: >-
+  PERSONS: >-
     {
       "leo": { "name": "Leonardo", "job": "painter", "country": "us"},
       "mia": { "name": "Mia", "job": "engineer", "country": "ca"}
@@ -43,10 +43,12 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
-      # Runs a single command using the runners shell
+      - name: Run a single-line script
+        run: echo $PERSONS
+        
       - name: Run a multi-line script
         run: |
           #echo "Hello ${{ fromJSON(github.event.inputs.person).name }}! How is ${{ fromJSON(github.event.inputs.person).country }}?"
           #echo "Hello ${{ fromJSON(github.event.inputs.person)[0] }}, ${{ fromJSON(github.event.inputs.person)[1].name }}! How is ${{ fromJSON(github.event.inputs.person)[1].country }}?"
           echo "Hello ${{ fromJSON(github.event.inputs.magic).name }}! How is ${{ fromJSON(github.event.inputs.magic).country }}?"
-          echo "Lookup ${{ github.event.inputs.bylookup }}: ${{ fromJSON(env.lookup)[github.event.inputs.bylookup].name }}! How is ${{ fromJSON(env.lookup)[github.event.inputs.bylookup].country }}?"
+          echo "Lookup ${{ github.event.inputs.lookup }}: ${{ fromJSON(env.PERSONS)[github.event.inputs.lookup].name }}! How is ${{ fromJSON(env.PERSONS)[github.event.inputs.lookup].country }}?"
