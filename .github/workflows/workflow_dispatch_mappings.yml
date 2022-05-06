@@ -8,11 +8,17 @@ on:
   workflow_dispatch:
     inputs:
       person:
-        type: chioce
+        type: choice
         description: selected human
         options:
           leo: {name: "Leonardo", "job": "painter", "country", "us"}
           mia: {name: "Mia", "job": "engineer", "country", "ca"}
+      magic:
+        type: choice
+        description: selected human
+        options:
+          - '{name: "Leonardo", "job": "painter", "country", "us"}'
+          - '{name: "Mia", "job": "engineer", "country", "ca"}'
           
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -25,6 +31,7 @@ jobs:
     steps:
 
       # Runs a single command using the runners shell
-      - name: Run a one-line script
+      - name: Run a multi-line script
         run: |
           echo "Hello ${{ fromJSON(github.event.inputs.person).name }}! How is ${{ fromJSON(github.event.inputs.person).country }}?"
+          echo "Hello ${{ fromJSON(github.event.inputs.magic).name }}! How is ${{ fromJSON(github.event.inputs.magic).country }}?"
