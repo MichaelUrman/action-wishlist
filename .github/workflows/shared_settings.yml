@@ -20,14 +20,12 @@ jobs:
       - name: fetch settings
         id: awk
         run: >
-          curl 
+          curl -v
           -H 'Authorization: ${{ github.token }}'
           -H 'Accept: application/vnd.github.v3.raw'
           -O
           -L $GITHUB_API_URL/repos/${GITHUB_REPOSITORY}/contents/${GITHUB_REF_NAME}/.github/workflows/shared.txt
-          |
-          awk
-          '{ if ($1 == "${{ github.events.inputs.species }}") print "::set-output name=" $2 "::" $3 }'
+          | awk '{ if ($1 == "${{ github.events.inputs.species }}") print "::set-output name=" $2 "::" $3 }'
 
   use:
     runs-on: ubuntu-latest
