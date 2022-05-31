@@ -43,7 +43,7 @@ jobs:
           | awk '{ if ($1 == "${{ github.event.inputs.species }}") print "::set-output name=" $2 "::" $3 }'
       - name: report setting
         run: >
-          echo 'Looked up ${{ github.event.inputs.species }}, ${{ steps.awk.outputs.genus }} has janka hardness ${{ steps.awk.outpus.janka }}
+          echo '${{ github.event.inputs.species }} (${{ steps.awk.outputs.genus }}) has janka hardness ${{ steps.awk.outpus.janka }}'
   use:
     runs-on: ubuntu-latest
     needs: [info]
