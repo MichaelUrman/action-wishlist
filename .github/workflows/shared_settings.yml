@@ -23,8 +23,8 @@ jobs:
           curl -v
           -H 'Authorization: ${{ github.token }}'
           -H 'Accept: application/vnd.github.v3.raw'
-          -L $GITHUB_API_URL/repos/${GITHUB_REPOSITORY}/contents/${GITHUB_REF_NAME}/.github/workflows/shared.txt
-          | awk '{ if ($1 == "${{ github.events.inputs.species }}") print "::set-output name=" $2 "::" $3 }'
+          -L ${{ github.api_url }}/repos/${{ github.repository }}/contents/${{ github.ref_name }}/.github/workflows/shared.txt
+          | awk '{ if ($1 == "${{ inputs.species }}") print "::set-output name=" $2 "::" $3 }'
 
   use:
     runs-on: ubuntu-latest
@@ -35,4 +35,4 @@ jobs:
     steps:
       - name: report settings
         run: >
-          echo ${{ github.events.inputs.species }} has genus: $GENUS
+          echo ${{ inputs.species }} has genus: $GENUS
