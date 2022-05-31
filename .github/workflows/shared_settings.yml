@@ -37,4 +37,5 @@ jobs:
       
     steps:
       - name: report settings
-        run: echo ${{ github.events.inputs.species }} has genus: $GENUS
+        run: >
+          echo ${{ github.events.inputs.species }} has genus: $GENUS
