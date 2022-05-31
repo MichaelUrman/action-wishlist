@@ -20,10 +20,10 @@ jobs:
       - name: fetch settings
         id: awk
         run: >
-          curl -v
+          curl
           -H 'Authorization: ${{ github.token }}'
           -H 'Accept: application/vnd.github.v3.raw'
-          -L '${{ github.api_url }}/repos/${{ github.repository }}/contents/.github/workflows/shared.txt?ref=${{ github.ref_name }}'
+          -L '${{ github.api_url }}/repos/${{ github.repository }}/contents/.github/workflows/shared.txt?ref=${{ github.ref }}'
           | tee shared.txt
           | awk '{ if ($1 == "${{ github.event.inputs.species }}") print "::set-output name=" $2 "::" $3 }'
       - run: cat shared.txt
