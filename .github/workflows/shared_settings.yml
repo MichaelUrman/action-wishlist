@@ -15,19 +15,35 @@ jobs:
   info:
     runs-on: ubuntu-latest
     outputs:
+      # For values to be available across jobs, they must be exposed here.
+      # Within a single job, any output set by a step is fair game.
       genus: ${{ steps.awk.outputs.genus }}
     steps:
       - name: fetch settings
         id: awk
+        # This POC shows a way to parse a repository's file for "constants" stored as job outputs.
+        # (Any public repo or one for which you have a convenient token can be substituted;
+        # just remove or change the Authorization line.)
+        #
+        # This example uses a trivial three-column format: L N V (lookup, name, value)
+        # If lookup L matches, output N will be set to value V.
+        #
+        # The same general approach can use alternate formats and parsers, or could retrieve a JSON blob by
+        # lookup filename. (use fromJSON like in workflow_dispatch_mappings.yml to access its data.)
+        #
+        # Note that complex output values may require additional processing to escape characters like newlines.
+        #
+        # Since values are stored in the repo, avoid using this technique to store and retrieve secrets.
         run: >
           curl
           -H 'Authorization: ${{ github.token }}'
           -H 'Accept: application/vnd.github.v3.raw'
           -L '${{ github.api_url }}/repos/${{ github.repository }}/contents/.github/workflows/shared.txt?ref=${{ github.ref }}'
-          | tee shared.txt
+          | tee /dev/stderr
           | awk '{ if ($1 == "${{ github.event.inputs.species }}") print "::set-output name=" $2 "::" $3 }'
-      - run: cat shared.txt
-
+      - name: report setting
+        run: >
+          echo 'Looked up ${{ github.event.inputs.species }}, ${{ steps.awk.outputs.genus }} has janka hardness ${{ steps.awk.outpus.janka }}
   use:
     runs-on: ubuntu-latest
     needs: [info]
