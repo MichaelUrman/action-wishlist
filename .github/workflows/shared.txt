@@ -1,3 +1,6 @@
 oak genus quercus
+oak janka 1220
 maple genus acer
+maple janka 1450
 cherry genus prunus
+cherry janka 950
