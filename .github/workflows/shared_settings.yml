@@ -1,0 +1,40 @@
+name: share settings
+
+on:
+  workflow_dispatch:
+    inputs:
+      species:
+        type: choice
+        options:
+          - oak
+          - cherry
+          - maple
+          - walnut
+
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    outputs:
+      genus: ${{ steps.awk.outputs.genus }}
+    steps:
+      - name: fetch settings
+        id: awk
+        run: >
+          curl 
+          -H 'Authorization: ${{ github.token }}'
+          -H 'Accept: application/vnd.github.v3.raw'
+          -O
+          -L $GITHUB_API_URL/repos/${GITHUB_REPOSITORY}/contents/${GITHUB_REF_NAME}/.github/workflows/shared.txt
+          |
+          awk
+          '{ if ($1 == "${{ github.events.inputs.species }}") print "::set-output name=" $2 "::" $3 }'
+
+  use:
+    runs-on: ubuntu-latest
+    needs: [info]
+    env:
+      GENUS: ${{ needs.info.outputs.genus }}
+      
+    steps:
+      - name: report settings
+        run: echo ${{ github.events.inputs.species }} has genus: $GENUS
