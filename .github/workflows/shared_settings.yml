@@ -29,7 +29,10 @@ jobs:
         # If lookup L matches, output N will be set to value V.
         #
         # The same general approach can use alternate formats and parsers, or could retrieve a JSON blob by
-        # lookup filename. (use fromJSON like in workflow_dispatch_mappings.yml to access its data.)
+        # lookup filename. (use fromJSON like in workflow_dispatch_mappings.yml to access its data, or jq to
+        # turn it into separate outputs with something like this.
+        # `| jq -r ' ... | .map("::set-output name=" + .key + "::" + (.value | @uri)) | .[]'`)
+        # Or just put raw ::set-output ... entries in the file and show it.
         #
         # Note that complex output values may require additional processing to escape characters like newlines.
         #
